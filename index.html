@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0d0e10">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0e10" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>固驰 · 口碑文案助手</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230d0e10'/><text x='32' y='45' font-size='38' font-weight='bold' text-anchor='middle' fill='%23E65318' font-family='PingFang SC,sans-serif'>固</text></svg>">
@@ -12,14 +13,16 @@
 :root{
   --bg:#f2f3f5;--surface:#fff;--ink:#121417;--muted:#6a7280;--line:#e4e6ea;
   --brand:#D8480F;--brand2:#F26A2E;--sel-fg:#C2410C;--tint:#FFF0E8;--chipbg:#f7f8fa;
-  --head:#0d0e10;--head-fg:#fff;--head-dim:rgba(255,255,255,.58);
+  --head-bg1:#ffffff;--head-bg2:#fdf6f2;--head-fg:#14171c;--head-dim:#6a7280;
+  --head-line:rgba(20,23,28,.08);--ver-fg:#C2410C;--ver-bd:rgba(230,83,24,.38);--ver-bg:rgba(230,83,24,.08);
   --shadow:0 1px 2px rgba(16,18,22,.04),0 8px 24px rgba(16,18,22,.07);
   --r:14px;
 }
 @media (prefers-color-scheme:dark){
   :root{--bg:#0a0b0d;--surface:#15171a;--ink:#ecedef;--muted:#949aa5;--line:#25282e;
   --brand:#E65318;--brand2:#FF7A3D;--sel-fg:#FF9A6B;--tint:#2A1610;--chipbg:#1b1e22;
-  --head:#000;--head-dim:rgba(255,255,255,.5);
+  --head-bg1:#131519;--head-bg2:#1c1512;--head-fg:#fff;--head-dim:rgba(255,255,255,.55);
+  --head-line:rgba(255,255,255,.1);--ver-fg:#FFB48F;--ver-bd:rgba(230,83,24,.5);--ver-bg:rgba(230,83,24,.12);
   --shadow:0 1px 2px rgba(0,0,0,.5),0 8px 24px rgba(0,0,0,.4)}
 }
 html,body{margin:0}
@@ -32,17 +35,27 @@ body{
 .wrap{max-width:720px;margin:0 auto;padding:0 16px}
 
 /* 顶栏 */
-.topbar{background:var(--head);color:var(--head-fg);position:relative;
-  padding:calc(15px + env(safe-area-inset-top)) 0 17px}
-.topbar:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
-  background:linear-gradient(90deg,var(--brand),var(--brand2) 45%,rgba(230,83,24,0) 100%)}
-.topbar .wrap{display:block;position:relative}
+.topbar{position:relative;overflow:hidden;color:var(--head-fg);
+  background:linear-gradient(170deg,var(--head-bg1) 0%,var(--head-bg2) 100%);
+  padding:calc(15px + env(safe-area-inset-top)) 0 17px;
+  box-shadow:0 1px 0 var(--head-line),0 8px 22px rgba(16,18,22,.05)}
+/* 缓慢扫过的品牌光晕 —— 顶栏的"动态" */
+.topbar:before{content:"";position:absolute;top:-70%;bottom:-70%;left:-35%;right:-35%;pointer-events:none;
+  background:linear-gradient(112deg,transparent 33%,rgba(230,83,24,.09) 44%,rgba(255,150,100,.17) 51%,rgba(230,83,24,.08) 58%,transparent 69%);
+  animation:sweep 17s linear infinite}
+@keyframes sweep{0%{transform:translateX(-38%)}100%{transform:translateX(38%)}}
+@media (prefers-reduced-motion:reduce){.topbar:before{animation:none}}
+.topbar:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;z-index:2;
+  background:linear-gradient(90deg,var(--brand),var(--brand2) 42%,rgba(230,83,24,0) 100%)}
+.topbar .wrap{display:block;position:relative;z-index:1}
 .logo{height:74px;width:auto;display:block}
+.only-dark{display:none}
+@media (prefers-color-scheme:dark){.only-light{display:none}.only-dark{display:block}}
 .brandtext{margin-top:11px}
 .brandname{font-size:17px;font-weight:600;letter-spacing:.4px;display:block;line-height:1.3}
 .tagline{font-size:11.5px;color:var(--head-dim);letter-spacing:.7px;display:block;margin-top:4px}
-.ver{position:absolute;top:2px;right:0;font-size:11px;color:#FFB48F;border:1px solid rgba(230,83,24,.5);
-  background:rgba(230,83,24,.12);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.ver{position:absolute;top:2px;right:0;font-size:11px;color:var(--ver-fg);border:1px solid var(--ver-bd);
+  background:var(--ver-bg);border-radius:999px;padding:4px 10px;white-space:nowrap}
 
 .lead{color:var(--muted);font-size:13.5px;line-height:1.75;margin:18px 2px 14px}
 
@@ -120,7 +133,8 @@ textarea{resize:vertical;min-height:64px;line-height:1.5}
 <div class="topbar">
   <div class="wrap">
     <span class="ver">贴膜版</span>
-    <img class="logo" src="assets/logo.png" alt="FlexiShield 固驰">
+    <img class="logo only-light" src="assets/logo-on-light.png" alt="FlexiShield 固驰">
+    <img class="logo only-dark" src="assets/logo-on-dark.png" alt="FlexiShield 固驰">
     <div class="brandtext">
       <span class="brandname">口碑文案助手</span>
       <span class="tagline">汽车贴膜 · 车主评价</span>
