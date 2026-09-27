@@ -3,22 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#123a63">
+<meta name="theme-color" content="#0d0e10">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>固驰 · 口碑文案助手</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23123a63'/><text x='32' y='44' font-size='34' text-anchor='middle' fill='%23ffffff' font-family='PingFang SC,sans-serif'>固</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230d0e10'/><text x='32' y='45' font-size='38' font-weight='bold' text-anchor='middle' fill='%23E65318' font-family='PingFang SC,sans-serif'>固</text></svg>">
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#eef0f4;--surface:#fff;--ink:#0f172a;--muted:#66748b;--line:#e3e7ee;
-  --brand:#123a63;--brand2:#1e5d97;--sel-fg:#123a63;--tint:#e9f0f8;--chipbg:#f7f9fc;
-  --shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.06);
+  --bg:#f2f3f5;--surface:#fff;--ink:#121417;--muted:#6a7280;--line:#e4e6ea;
+  --brand:#D8480F;--brand2:#F26A2E;--sel-fg:#C2410C;--tint:#FFF0E8;--chipbg:#f7f8fa;
+  --head:#0d0e10;--head-fg:#fff;--head-dim:rgba(255,255,255,.58);
+  --shadow:0 1px 2px rgba(16,18,22,.04),0 8px 24px rgba(16,18,22,.07);
   --r:14px;
 }
 @media (prefers-color-scheme:dark){
-  :root{--bg:#0b0f16;--surface:#141a23;--ink:#e9eef6;--muted:#8b98ab;--line:#232b37;
-  --brand:#2f6fc4;--brand2:#3f86dd;--sel-fg:#8fbcf5;--tint:#16283f;--chipbg:#1a212a;
-  --shadow:0 1px 2px rgba(0,0,0,.45),0 8px 24px rgba(0,0,0,.35)}
+  :root{--bg:#0a0b0d;--surface:#15171a;--ink:#ecedef;--muted:#949aa5;--line:#25282e;
+  --brand:#E65318;--brand2:#FF7A3D;--sel-fg:#FF9A6B;--tint:#2A1610;--chipbg:#1b1e22;
+  --head:#000;--head-dim:rgba(255,255,255,.5);
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 8px 24px rgba(0,0,0,.4)}
 }
 html,body{margin:0}
 body{
@@ -30,14 +32,17 @@ body{
 .wrap{max-width:720px;margin:0 auto;padding:0 16px}
 
 /* 顶栏 */
-.topbar{background:var(--brand);background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;
-  padding:calc(14px + env(safe-area-inset-top)) 0 14px;box-shadow:0 4px 18px rgba(18,58,99,.22)}
-.topbar .wrap{display:flex;align-items:center;gap:10px}
-.mark{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);
-  display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex:0 0 auto}
-.brandname{font-size:16.5px;font-weight:600;letter-spacing:.3px;line-height:1.2}
-.tagline{font-size:11.5px;opacity:.8;letter-spacing:1.2px;margin-top:2px}
-.ver{margin-left:auto;font-size:11.5px;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:4px 10px;opacity:.92;white-space:nowrap}
+.topbar{background:var(--head);color:var(--head-fg);position:relative;
+  padding:calc(15px + env(safe-area-inset-top)) 0 17px}
+.topbar:after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+  background:linear-gradient(90deg,var(--brand),var(--brand2) 45%,rgba(230,83,24,0) 100%)}
+.topbar .wrap{display:block;position:relative}
+.logo{height:74px;width:auto;display:block}
+.brandtext{margin-top:11px}
+.brandname{font-size:17px;font-weight:600;letter-spacing:.4px;display:block;line-height:1.3}
+.tagline{font-size:11.5px;color:var(--head-dim);letter-spacing:.7px;display:block;margin-top:4px}
+.ver{position:absolute;top:2px;right:0;font-size:11px;color:#FFB48F;border:1px solid rgba(230,83,24,.5);
+  background:rgba(230,83,24,.12);border-radius:999px;padding:4px 10px;white-space:nowrap}
 
 .lead{color:var(--muted);font-size:13.5px;line-height:1.75;margin:18px 2px 14px}
 
@@ -69,7 +74,7 @@ textarea{resize:vertical;min-height:64px;line-height:1.5}
 .seg button{font-family:inherit;cursor:pointer;text-align:center;padding:11px 6px;font-size:13.5px;font-weight:500;
   background:var(--chipbg);border:1px solid var(--line);color:var(--ink);border-radius:10px;transition:.15s;line-height:1.35}
 .seg button small{display:block;font-size:10.5px;color:var(--muted);font-weight:400;margin-top:3px;letter-spacing:.3px}
-.seg button.on{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 4px 12px rgba(18,58,99,.22)}
+.seg button.on{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 4px 14px rgba(216,72,15,.28)}
 .seg button.on small{color:rgba(255,255,255,.82)}
 
 /* 标签 */
@@ -86,7 +91,7 @@ textarea{resize:vertical;min-height:64px;line-height:1.5}
 .btn{font-family:inherit;cursor:pointer;border-radius:11px;font-size:15.5px;font-weight:600;padding:14px 18px;
   min-height:50px;transition:.15s;border:1px solid transparent}
 .btn:active{transform:scale(.99)}
-.btn.primary{flex:2;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 6px 18px rgba(18,58,99,.26)}
+.btn.primary{flex:2;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 6px 18px rgba(216,72,15,.3)}
 .btn.ghost{flex:1;background:var(--chipbg);color:var(--ink);border-color:var(--line)}
 
 /* 结果 */
@@ -114,12 +119,12 @@ textarea{resize:vertical;min-height:64px;line-height:1.5}
 
 <div class="topbar">
   <div class="wrap">
-    <span class="mark">固</span>
-    <span>
-      <span class="brandname">固驰 · 口碑文案助手</span>
-      <span class="tagline" style="display:block">GUCHI AUTO FILM</span>
-    </span>
-    <span class="ver">汽车贴膜版</span>
+    <span class="ver">贴膜版</span>
+    <img class="logo" src="assets/logo.png" alt="FlexiShield 固驰">
+    <div class="brandtext">
+      <span class="brandname">口碑文案助手</span>
+      <span class="tagline">汽车贴膜 · 车主评价</span>
+    </div>
   </div>
 </div>
 
