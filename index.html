@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123a63">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>固驰 · 口碑文案助手</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23123a63'/><text x='32' y='44' font-size='34' text-anchor='middle' fill='%23ffffff' font-family='PingFang SC,sans-serif'>固</text></svg>">
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#eef0f4;--surface:#fff;--ink:#0f172a;--muted:#66748b;--line:#e3e7ee;
+  --brand:#123a63;--brand2:#1e5d97;--sel-fg:#123a63;--tint:#e9f0f8;--chipbg:#f7f9fc;
+  --shadow:0 1px 2px rgba(15,23,42,.04),0 8px 24px rgba(15,23,42,.06);
+  --r:14px;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0b0f16;--surface:#141a23;--ink:#e9eef6;--muted:#8b98ab;--line:#232b37;
+  --brand:#2f6fc4;--brand2:#3f86dd;--sel-fg:#8fbcf5;--tint:#16283f;--chipbg:#1a212a;
+  --shadow:0 1px 2px rgba(0,0,0,.45),0 8px 24px rgba(0,0,0,.35)}
+}
+html,body{margin:0}
+body{
+  background:var(--bg);color:var(--ink);
+  font:16px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  padding:0 0 calc(122px + env(safe-area-inset-bottom));
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+
+/* 顶栏 */
+.topbar{background:var(--brand);background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;
+  padding:calc(14px + env(safe-area-inset-top)) 0 14px;box-shadow:0 4px 18px rgba(18,58,99,.22)}
+.topbar .wrap{display:flex;align-items:center;gap:10px}
+.mark{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);
+  display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex:0 0 auto}
+.brandname{font-size:16.5px;font-weight:600;letter-spacing:.3px;line-height:1.2}
+.tagline{font-size:11.5px;opacity:.8;letter-spacing:1.2px;margin-top:2px}
+.ver{margin-left:auto;font-size:11.5px;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:4px 10px;opacity:.92;white-space:nowrap}
+
+.lead{color:var(--muted);font-size:13.5px;line-height:1.75;margin:18px 2px 14px}
+
+/* 卡片 */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);
+  padding:18px;margin-bottom:14px}
+h2{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:600;margin:0 0 14px;letter-spacing:.2px}
+h2 i{font-style:normal;width:20px;height:20px;border-radius:6px;background:var(--tint);color:var(--sel-fg);
+  font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+h2 .hint{margin-left:auto;font-weight:400;font-size:12px;color:var(--muted)}
+h2.mt{margin-top:22px;padding-top:18px;border-top:1px solid var(--line)}
+
+.grid2{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:560px){.grid2{grid-template-columns:1fr 1fr}}
+.field{display:block;margin-bottom:16px}
+.field:last-child{margin-bottom:0}
+.field>span{display:block;font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.field>span em{font-style:normal;opacity:.75}
+
+input[type=text],textarea{width:100%;background:var(--chipbg);border:1px solid var(--line);color:var(--ink);
+  border-radius:10px;padding:11px 13px;font-size:15px;font-family:inherit;outline:none;transition:.15s}
+input[type=text]::placeholder,textarea::placeholder{color:var(--muted);opacity:.7}
+input[type=text]:focus,textarea:focus{border-color:var(--brand);background:var(--surface);box-shadow:0 0 0 3px var(--tint)}
+textarea{resize:vertical;min-height:64px;line-height:1.5}
+
+/* 施工类型：分段控件 */
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(min-width:560px){.seg{grid-template-columns:repeat(4,1fr)}}
+.seg button{font-family:inherit;cursor:pointer;text-align:center;padding:11px 6px;font-size:13.5px;font-weight:500;
+  background:var(--chipbg);border:1px solid var(--line);color:var(--ink);border-radius:10px;transition:.15s;line-height:1.35}
+.seg button small{display:block;font-size:10.5px;color:var(--muted);font-weight:400;margin-top:3px;letter-spacing:.3px}
+.seg button.on{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 4px 12px rgba(18,58,99,.22)}
+.seg button.on small{color:rgba(255,255,255,.82)}
+
+/* 标签 */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:inherit;cursor:pointer;font-size:13.5px;font-weight:500;color:var(--ink);
+  background:var(--chipbg);border:1px solid var(--line);border-radius:9px;padding:9px 13px;line-height:1;transition:.15s}
+.chip:active{transform:scale(.97)}
+.chip.on{background:var(--tint);border-color:var(--brand);color:var(--sel-fg);font-weight:600}
+
+/* 底部操作条 */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--surface);
+  border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom))}
+.bar .inner{max-width:720px;margin:0 auto;display:flex;gap:10px}
+.btn{font-family:inherit;cursor:pointer;border-radius:11px;font-size:15.5px;font-weight:600;padding:14px 18px;
+  min-height:50px;transition:.15s;border:1px solid transparent}
+.btn:active{transform:scale(.99)}
+.btn.primary{flex:2;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;box-shadow:0 6px 18px rgba(18,58,99,.26)}
+.btn.ghost{flex:1;background:var(--chipbg);color:var(--ink);border-color:var(--line)}
+
+/* 结果 */
+.rhead{display:flex;align-items:center;margin:20px 2px 10px;font-size:13px;color:var(--muted)}
+.rhead b{color:var(--ink)}
+.linkbtn{margin-left:auto;background:none;border:0;color:var(--sel-fg);font-family:inherit;font-size:13px;
+  font-weight:600;cursor:pointer;padding:4px 2px}
+.res{padding:16px 16px 14px}
+.res-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.idx{font-size:11.5px;font-weight:700;color:var(--sel-fg);background:var(--tint);border-radius:6px;padding:3px 8px;letter-spacing:.5px}
+.meta{font-size:11.5px;color:var(--muted)}
+.copy{margin-left:auto;font-family:inherit;cursor:pointer;font-size:13px;font-weight:600;color:var(--sel-fg);
+  background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:7px 14px;transition:.15s}
+.copy.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.txt{margin:0;white-space:pre-wrap;word-break:break-word;font-size:15.5px;line-height:1.9}
+.empty{text-align:center;color:var(--muted);font-size:13.5px;line-height:1.9;padding:26px 14px}
+.foot{color:var(--muted);font-size:12px;text-align:center;line-height:1.9;padding:6px 8px 0}
+#toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom));transform:translate(-50%,12px);
+  background:rgba(15,23,42,.94);color:#fff;padding:10px 18px;border-radius:9px;font-size:13.5px;opacity:0;
+  pointer-events:none;transition:.2s;z-index:60}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <span class="mark">固</span>
+    <span>
+      <span class="brandname">固驰 · 口碑文案助手</span>
+      <span class="tagline" style="display:block">GUCHI AUTO FILM</span>
+    </span>
+    <span class="ver">汽车贴膜版</span>
+  </div>
+</div>
+
+<div class="wrap">
+  <p class="lead">按这次施工的实际情况勾选，一键生成可以直接发出去的车主评价文案。</p>
+
+  <section class="card">
+    <h2><i>1</i>基本信息</h2>
+    <div class="grid2">
+      <label class="field">
+        <span>门店名称 <em>选填</em></span>
+        <input type="text" id="name" placeholder="固驰汽车贴膜（XX店）" autocomplete="off">
+      </label>
+      <label class="field">
+        <span>我的车型 <em>选填</em></span>
+        <input type="text" id="car" placeholder="Model Y / 汉EV / 3系" autocomplete="off">
+      </label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><i>2</i>施工类型</h2>
+    <div class="seg" id="subs"></div>
+
+    <h2 class="mt"><i>3</i>想夸的点 <span class="hint">可多选 · 已选 <b id="cnt">0</b> 项</span></h2>
+    <div class="chips" id="tags"></div>
+  </section>
+
+  <section class="card">
+    <h2><i>4</i>表达方式</h2>
+    <div class="field">
+      <span>语气</span>
+      <div class="chips" id="styles"></div>
+    </div>
+    <div class="field">
+      <span>篇幅</span>
+      <div class="chips" id="lens"></div>
+    </div>
+    <div class="field">
+      <span>推荐力度</span>
+      <div class="chips" id="powers"></div>
+    </div>
+    <div class="field">
+      <span>补充真实细节 <em>选填，会织进文案</em></span>
+      <textarea id="detail" placeholder="例如：前挡+侧后挡一起贴／提车三个月／中午暴晒后不烫了"></textarea>
+    </div>
+  </section>
+
+  <div class="rhead" id="rhead" hidden><span>生成结果 <b id="rcnt">3</b> 条</span>
+    <button class="linkbtn" id="copyall">全部复制</button></div>
+  <section id="out">
+    <div class="card empty" id="empty">填好上面四项，点「生成文案」<br>会一次给出 3 条可直接使用的评价</div>
+  </section>
+
+  <p class="foot">生成的文案可自由修改 · 加上自己的真实细节会更自然<br>把链接发到微信 / 车友群，或打印成二维码贴在店里</p>
+</div>
+
+<div class="bar"><div class="inner">
+  <button class="btn ghost" id="reroll">换一批</button>
+  <button class="btn primary" id="gen">生成文案</button>
+</div></div>
+<div id="toast">已复制</div>
+
+<script>
+/* ============ 维度 ============ */
+var A = {
+  authentic:{label:'正品授权',l:['膜是正品，当面拆封验码，官方质保卡也一起给了。','渠道正规，序列号能查到，不是来路不明的膜。','授权店，膜盒上的码当场扫过，心里踏实。','包装、质保卡、系统记录都对得上，不担心以次充好。'],s:['膜是正品，能验码。','官方质保卡齐全。']},
+  workshop:{label:'无尘车间',l:['有独立无尘车间，施工的时候门一关，灰尘基本进不去。','专用贴膜房，不是在外面露天贴的。','降尘设备齐全，这两天有雨也没影响施工。','施工区台面和地面都很干净，一看就是规范做的。'],s:['无尘车间，干净。','施工环境很规范。']},
+  craft:{label:'工艺细节',l:['包边包得很平整，一点没起翘。','交车的时候全车检查了一遍，没有气泡也没有尘点。','收边收得干净，缝隙里几乎看不出贴过。','用的是电脑裁膜，没在车上动刀。'],s:['没有气泡尘点。','包边很服帖。']},
+  warranty:{label:'官方质保',l:['质保卡当场登记，保多少年写得清清楚楚。','官方质保全国联保，换城市也不用担心。','老板说后面要是起泡翘边，随时回来免费处理。','质保信息能在系统里查到，不是口头承诺。'],s:['质保卡给全了。','有官方质保，放心。']},
+  heat:{label:'隔热效果',l:['贴完明显感觉空调更顶用了，中午暴晒完上车没以前那么烫。','在太阳下停一下午，方向盘不再是烫手的。','隔热是真有用，不是卖膜时吹出来的。','中午开车胳膊不再被晒得发烫。'],s:['隔热效果明显。','暴晒后没那么烫了。']},
+  clarity:{label:'视野清晰',l:['前挡透光很好，晚上开车不炫光。','视野清晰，不会雾蒙蒙的。','透光率达标，不影响年检。','下大雨的晚上也看得很清楚。'],s:['视野清晰，不炫光。','透光没问题。']},
+  paint:{label:'不伤原漆',l:['全程没在车漆上动刀，原漆一点没伤到。','不用大面积拆件，装回去也没有异响。','施工前后都拍了照，哪块膜对哪块漆都清清楚楚。','原来的细划痕贴完基本看不出来了。'],s:['没伤到原漆。','不用拆件。']},
+  selfheal:{label:'划痕自修复',l:['轻微划痕晒晒太阳就淡了，确实有点东西。','小刮小蹭基本都能自己恢复，省心。','停在小区被蹭了一下，痕迹自己就没了。'],s:['小划痕能自修复。','轻微划痕会自己恢复。']},
+  noyellow:{label:'不发黄',l:['贴了这么久颜色还是透亮的，没有发黄。','膜的透亮度和刚贴的时候差不多。','天天停在外面晒，也没出现变色的情况。'],s:['不发黄。','还是透亮的。']},
+  colorlook:{label:'颜色质感',l:['颜色很正，不是那种廉价的塑料感。','质感很高级，阳光下颜色特别好看。','比原车漆有个性多了，开出去回头率很高。'],s:['颜色很正。','质感很好。']},
+  removetape:{label:'撕膜不留胶',l:['换色的时候撕下来一点胶都没留，车漆完好。','用的是不留胶的膜，撕的时候确实干净。','老板说以后想恢复原色随时可以撕，不伤漆。'],s:['撕膜不留胶。','不伤车漆。']},
+  speed:{label:'当天交车',l:['预约过去就直接开工，没让车在店里过夜。','说好当天交车，真的当天就交了。','到店到取车时间卡得很准，没耽误我用车。'],s:['当天就交车了。','速度很快。']},
+  price:{label:'价格透明',l:['报价一次说清，中途没有任何加项。','对比过同城几家，价格实在，没有虚高。','不同价位的膜讲得明明白白，没拿便宜的糊弄贵的。','该多少钱就多少钱，没有隐形消费。'],s:['价格透明，没加项。','报价很实在。']},
+  advice:{label:'按需推荐',l:['没有一上来就推最贵的，是按我的用车习惯推荐的。','会把不同膜的差别讲清楚，让我自己选。','不推销，问什么答什么，很舒服。','预算不高也照样认真做，没有区别对待。'],s:['不推销，按需推荐。','讲得清楚，不催单。']},
+  pro:{label:'师傅专业',l:['{who}一看就是老手，动作很稳。','聊了两句就知道是按膜切膜的老手。','边角处理得很干净，一看就是干了多年的。','全程都是老师傅在动手，不是拿我的车练手。'],s:['师傅很专业。','是老手，放心。']},
+  handover:{label:'交车讲解',l:['交车的时候特意讲了一遍养护注意事项。','施工照片都发我了，每一块都对得上。','叮嘱了前几天别洗车，很细致。','贴完还帮我把车擦干净了才交车。'],s:['交车讲得很细。','施工照片都发我了。']},
+  transparency:{label:'施工可看',l:['施工全程都能看，也可以随时问进度。','在休息区就能看到施工区，心里踏实。','每一步都会说一声，不是关起门来搞。'],s:['施工能看得见。','全程透明，放心。']},
+  after:{label:'售后回访',l:['过了一周还专门打电话问有没有起边。','后来发现一个小气泡，叫回去几分钟就处理了。','售后态度很好，不是贴完就不管。','回访的时候还提醒了下次保养时间。'],s:['售后有回访。','有问题回来就处理。']},
+  repeat:{label:'回头常客',l:['上一台车就是在这儿贴的，第二台还是来了。','朋友的车也是在这儿贴的，都成了回头客。','身边好几个车友都被我介绍过来了。','几年了一直稳定，所以认准这家。'],s:['第二台车还来这。','老客户了，一直稳。']},
+  detail:{label:'细节到位',l:['内饰都做了保护，贴完车里一点都不脏。','开工前把车洗得很干净，这点很讲究。','门缝里的水都吹干净了，收尾很仔细。'],s:['细节做得很用心。','内饰保护得不错。']}
+};
+
+/* ============ 施工类型 ============ */
+var SUBS = {
+  window:{label:'车窗膜',sub:'太阳膜 / 隔热膜',thing:'这套膜',
+    def:['authentic','craft','heat','clarity','workshop','price','warranty'],
+    extra:['pro','speed','advice','handover','transparency','after','repeat','detail']},
+  ppf:{label:'隐形车衣',sub:'漆面保护膜',thing:'这套车衣',
+    def:['authentic','craft','selfheal','noyellow','paint','workshop','warranty'],
+    extra:['pro','speed','advice','handover','transparency','after','repeat','detail','price']},
+  color:{label:'改色膜',sub:'车身改色',thing:'这次改色',
+    def:['colorlook','removetape','craft','workshop','price','warranty'],
+    extra:['authentic','pro','speed','advice','handover','transparency','after','repeat','detail']},
+  all:{label:'综合 / 其他',sub:'整车相关',thing:'这次施工',
+    def:['authentic','craft','workshop','price','warranty','pro','after'],
+    extra:['heat','clarity','paint','selfheal','noyellow','colorlook','removetape','speed','advice','handover','transparency','repeat','detail']}
+};
+
+/* ============ 语气 ============ */
+var STYLES = {
+  owner:{label:'朴实车主',open:['这次贴膜整体挺满意的。','朋友介绍来的，没踩坑。','对比了两家，最后选了这家，没选错。','第一次在这儿贴，比预想的顺利。','网上看了不少，最后决定来这试试。','之前一直犹豫，贴完觉得早点来就好了。'],
+    close:['以后有需要还来这家。','已经推荐给车友群了。','价格和手艺都合适，值得。','下次保养顺路再来看看。','挺省心的一次。']},
+  warm:{label:'热情安利',open:['必须给师傅点个赞，手艺是真的好！','这家真的要吹一下，太满意了！','贴完那一刻就知道钱没白花！','终于找到一家靠谱的贴膜店了！','太后悔没早点来了，效果超出预期！','已经推荐给好几个朋友了！'],
+    close:['以后有人要贴膜，我只推这家！','真心推荐，闭眼来就行！','这家我锁死了！','手艺在这儿摆着，放心来！','五星好评，没得说！']},
+  brief:{label:'简短干练',open:['贴完了，满意。','整体不错，推荐。','手艺好，价格清楚。','没踩坑，值得来。','比预期好。','第二台车了，一样稳。'],
+    close:['会再来。','推荐。','值得。','五星。','没问题。']},
+  cool:{label:'专业冷静',open:['从进店到交车，流程比较规范。','对比了几家的膜和报价，最后选了这家。','沟通清楚，报价明确，结果在预期内。','整体施工下来没有明显短板。','作为第二台在这儿贴膜的车主，评价偏正面。','客观说，这个价位能做到这样算合格以上。'],
+    close:['综合来看，值得长期合作。','后续有需要会优先考虑这家。','推荐给有同样需求的车主。','整体达到预期。','从性价比角度看，没有更好的选择。']},
+  funny:{label:'幽默车友',open:['贴完开出去，朋友都问我是不是换车了。','进店之前我是路人，出门之后我是自来水。','本来只想贴个膜，结果把车当新车在开了。','以后谁再说不贴膜，我就把他车开来这儿。','作为一个很挑剔的人，这次我服了。','提车三个月，最大一笔消费就是这个，但值。'],
+    close:['下次换车还来这儿。','我的钱包已经拉黑我了。','先在车友群里吹一波。','以后再纠结贴膜，直接抄我作业。','这钱花得比加油舒坦。']},
+  picky:{label:'细节控',open:['作为一个强迫症车主，我全程盯完了施工。','我这人对细节很挑，这次没挑出毛病。','贴之前特意检查了原车漆，贴完又检查了一遍。','提车前最担心的就是起泡和尘点，结果都没有。','我拿着手机灯照了一圈，边角没挑出问题。','施工的时候我一直在旁边看，越看越踏实。'],
+    close:['强迫症车主表示可以放心。','细节党可以冲。','下次还来，不放心的可以来盯现场。','挑不出毛病，就这样。','推荐给同样在意细节的人。']}
+};
+
+var CARLINES=['我的{car}在这贴的，从预约到交车都很顺。','我这台{car}贴完，比预期还好。','{car}贴完开了一周，效果一直在。','我这台{car}，最后选的就是这家。'];
+var NAMED=['说的就是{name}，记住了。','{name}，以后贴膜还来。','以后贴膜就认{name}了。','{name}，值得推荐。','车友问我在哪贴的，我说的是{name}。'];
+var BOOST=['真心推荐。','强烈推荐，不吹不黑。','这家值得被更多车主知道。','推荐给准备贴膜的车主。','不好我也不会专门来写。'];
+var EXTRA=['整个过程没有任何让人不舒服的地方。','沟通很顺畅，不催不烦。','店里休息区挺舒服，等着也不难熬。','这个价位能做到这样，很难得。','希望一直保持这个水准。'];
+var EMOJI=['🔥','👍','💯','✨','🚗','🎉'];
+var POWERS={normal:'还挺满意',super:'很满意',strong:'强烈推荐'};
+var LENS={short:'短（约30字）',mid:'中（约80字）',long:'长（约120字）'};
+
+/* ============ 生成器 ============ */
+var used={},last={};
+function pick(key,arr){
+  var pool=arr.filter(function(x){return !used[key+'|'+x]});
+  if(!pool.length){
+    Object.keys(used).forEach(function(k){if(k.indexOf(key+'|')===0)delete used[k]});
+    pool=arr.filter(function(x){return x!==last[key]});
+    if(!pool.length)pool=arr;
+  }
+  var v=pool[Math.floor(Math.random()*pool.length)];
+  used[key+'|'+v]=1;last[key]=v;
+  return v;
+}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function fill(s,sub,cfg){
+  return s.replace(/\{thing\}/g,sub.thing).replace(/\{who\}/g,'师傅')
+          .replace(/\{name\}/g,(cfg.name||'').trim()).replace(/\{car\}/g,(cfg.car||'').trim());
+}
+function build(cfg){
+  var sub=SUBS[cfg.sub],st=STYLES[cfg.style],brief=cfg.style==='brief';
+  var tags=cfg.tags.length?cfg.tags:sub.def;
+  var n=cfg.len==='short'?1:(cfg.len==='mid'?2:(Math.random()<.6?3:4));
+  if(brief&&n>2)n=2;
+  var aspects=shuffle(tags).slice(0,n),parts=[];
+  if(cfg.len!=='short'||brief)parts.push(pick('o'+cfg.style,st.open));
+  if((cfg.car||'').trim())parts.push(fill(pick('car',CARLINES),sub,cfg));
+  var dt=(cfg.detail||'').trim()?cfg.detail.trim().replace(/[。!！~～,，]+$/,'')+'。':null;
+  var dtLate=dt&&Math.random()<.35;
+  if(dt&&!dtLate)parts.push(dt);
+  aspects.forEach(function(id){var a=A[id];if(a)parts.push(fill(pick(id,brief?a.s:a.l),sub,cfg))});
+  if(cfg.len==='long'&&!brief){parts.push(pick('x',EXTRA));if(aspects.length<4)parts.push(pick('x',EXTRA))}
+  if(dt&&dtLate)parts.push(dt);
+  if((cfg.name||'').trim()&&cfg.len!=='short')parts.push(fill(pick('n',NAMED),sub,cfg));
+  parts.push(pick('c'+cfg.style,st.close));
+  if(cfg.power!=='normal')parts.push(pick('b',BOOST));
+  if(cfg.power==='strong'&&cfg.len!=='short')parts.push(pick('b',BOOST));
+  var t=parts.join('');
+  if(cfg.style==='warm')t+=EMOJI[Math.floor(Math.random()*EMOJI.length)];
+  if(cfg.style==='funny'&&Math.random()<.6)t+=EMOJI[Math.floor(Math.random()*EMOJI.length)];
+  return t;
+}
+
+/* ============ 界面 ============ */
+var $=function(s){return document.querySelector(s)};
+var cfg={sub:'window',tags:[],style:'owner',len:'mid',power:'normal',name:'',car:'',detail:''};
+
+function tagPool(k){
+  var s=SUBS[k],out=[];
+  s.def.concat(s.extra).forEach(function(t){if(out.indexOf(t)<0)out.push(t)});
+  return out;
+}
+function chipRow(el,items,isOn,onTap){
+  el.innerHTML='';
+  items.forEach(function(it){
+    var b=document.createElement('button');
+    b.type='button';b.className='chip'+(isOn(it)?' on':'');b.textContent=it.label;
+    b.onclick=function(){onTap(it);persist();draw()};
+    el.appendChild(b);
+  });
+}
+function drawSubs(){
+  var el=$('#subs');el.innerHTML='';
+  Object.keys(SUBS).forEach(function(k){
+    var b=document.createElement('button');
+    b.type='button';b.className=(cfg.sub===k?'on':'');
+    b.innerHTML='<span></span><small></small>';
+    b.firstChild.textContent=SUBS[k].label;b.lastChild.textContent=SUBS[k].sub;
+    b.onclick=function(){cfg.sub=k;cfg.tags=SUBS[k].def.slice();persist();draw()};
+    el.appendChild(b);
+  });
+}
+function draw(){
+  drawSubs();
+  chipRow($('#tags'),tagPool(cfg.sub).map(function(k){return {k:k,label:A[k].label}}),
+    function(it){return cfg.tags.indexOf(it.k)>=0},
+    function(it){var i=cfg.tags.indexOf(it.k);if(i<0)cfg.tags.push(it.k);else cfg.tags.splice(i,1)});
+  chipRow($('#styles'),Object.keys(STYLES).map(function(k){return {k:k,label:STYLES[k].label}}),
+    function(it){return cfg.style===it.k},function(it){cfg.style=it.k});
+  chipRow($('#lens'),Object.keys(LENS).map(function(k){return {k:k,label:LENS[k]}}),
+    function(it){return cfg.len===it.k},function(it){cfg.len=it.k});
+  chipRow($('#powers'),Object.keys(POWERS).map(function(k){return {k:k,label:POWERS[k]}}),
+    function(it){return cfg.power===it.k},function(it){cfg.power=it.k});
+  $('#cnt').textContent=cfg.tags.length;
+}
+function persist(){
+  try{localStorage.setItem('gc-cfg',JSON.stringify({sub:cfg.sub,tags:cfg.tags,style:cfg.style,len:cfg.len,power:cfg.power}))}catch(e){}
+}
+function readInputs(){cfg.name=$('#name').value;cfg.car=$('#car').value;cfg.detail=$('#detail').value}
+function restore(){
+  try{
+    var d=JSON.parse(localStorage.getItem('gc-cfg')||'null');
+    if(d&&SUBS[d.sub]){cfg.sub=d.sub;cfg.tags=d.tags||[];cfg.style=STYLES[d.style]?d.style:'owner';cfg.len=LENS[d.len]?d.len:'mid';cfg.power=POWERS[d.power]?d.power:'normal'}
+  }catch(e){}
+  if(!cfg.tags.length)cfg.tags=SUBS[cfg.sub].def.slice();
+}
+async function copy(text){
+  if(navigator.clipboard&&window.isSecureContext){try{await navigator.clipboard.writeText(text);return true}catch(e){}}
+  var ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');
+  ta.style.cssText='position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(ta);ta.select();ta.setSelectionRange(0,text.length);
+  var ok=false;try{ok=document.execCommand('copy')}catch(e){}
+  document.body.removeChild(ta);return ok;
+}
+var tt;
+function toast(m){var t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);
+  tt=setTimeout(function(){t.classList.remove('show')},1700)}
+
+var shown=[];
+function render(){
+  readInputs();
+  shown=[];for(var i=0;i<3;i++)shown.push(build(cfg));
+  $('#empty')&&$('#empty').remove();
+  $('#rhead').hidden=false;$('#rcnt').textContent='3';
+  var out=$('#out');out.innerHTML='';
+  shown.forEach(function(t,idx){
+    var c=document.createElement('article');c.className='card res';
+    var top=document.createElement('div');top.className='res-top';
+    var ix=document.createElement('span');ix.className='idx';ix.textContent='0'+(idx+1);
+    var mt=document.createElement('span');mt.className='meta';mt.textContent=t.replace(/\s/g,'').length+' 字';
+    var b=document.createElement('button');b.className='copy';b.textContent='复制';
+    b.onclick=async function(){
+      if(await copy(t)){b.textContent='已复制';b.classList.add('on');toast('已复制，去粘贴吧');
+        setTimeout(function(){b.textContent='复制';b.classList.remove('on')},1800);}
+      else toast('复制失败，请长按文字手动复制');
+    };
+    top.appendChild(ix);top.appendChild(mt);top.appendChild(b);
+    var p=document.createElement('p');p.className='txt';p.textContent=t;
+    c.appendChild(top);c.appendChild(p);out.appendChild(c);
+  });
+}
+document.addEventListener('DOMContentLoaded',function(){
+  restore();draw();
+  $('#gen').onclick=render;
+  $('#reroll').onclick=render;
+  ['name','car','detail'].forEach(function(id){$('#'+id).addEventListener('input',readInputs)});
+  $('#copyall').onclick=async function(){
+    if(!shown.length)return;
+    if(await copy(shown.join('\n\n')))toast('3 条已全部复制');
+    else toast('复制失败，请长按文字手动复制');
+  };
+});
+</script>
+</body>
+</html>
